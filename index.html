@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no" />
+  <meta name="theme-color" content="#03121c" />
+  <meta name="description" content="Reef Rampage — a 2D underwater arena shooter. One fish, one harpoon, zero chill." />
+  <title>Reef Rampage — 2D Fish Gun Game</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23031824'/%3E%3Cpath d='M14 32c8-11 22-13 30-3l8-6v18l-8-6c-8 10-22 8-30-3z' fill='%23ff8a3d'/%3E%3Ccircle cx='38' cy='29' r='3' fill='%23031824'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="safe-probe" aria-hidden="true"></div>
+  <canvas id="game" aria-label="Reef Rampage game canvas"></canvas>
+
+  <div class="top-actions">
+    <button id="muteBtn" class="icon-btn" type="button" aria-label="Mute sound" title="Mute sound (M)">
+      <svg class="icon-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></svg>
+      <svg class="icon-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="m16 9 5 6M21 9l-5 6"/></svg>
+    </button>
+    <button id="pauseBtn" class="icon-btn hidden" type="button" aria-label="Pause game" title="Pause (Esc)">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+    </button>
+  </div>
+
+  <section id="menuScreen" class="screen menu-screen">
+    <div class="menu-inner">
+      <p class="eyebrow"><span></span> Deep sea arcade <span></span></p>
+      <h1 class="logo" aria-label="Reef Rampage">
+        <span class="logo-line logo-reef">REEF</span>
+        <span class="logo-line logo-rampage">RAMPAGE</span>
+      </h1>
+      <p class="tagline">One fish. One harpoon. <em>Zero</em> chill.</p>
+
+      <button id="playBtn" class="primary-btn" type="button">
+        <span>DIVE IN</span>
+        <kbd>ENTER</kbd>
+      </button>
+
+      <p class="best-line">BEST SCORE <strong id="bestMenu">0</strong></p>
+
+      <div class="controls" aria-label="Controls">
+        <div class="control-card desktop-only">
+          <span class="control-icon">◈</span>
+          <h3>Swim</h3>
+          <p><kbd>WASD</kbd> <kbd>ARROWS</kbd></p>
+        </div>
+        <div class="control-card desktop-only">
+          <span class="control-icon">◎</span>
+          <h3>Aim / fire</h3>
+          <p><kbd>MOUSE</kbd> hold click</p>
+        </div>
+        <div class="control-card desktop-only">
+          <span class="control-icon">⟫</span>
+          <h3>Dash</h3>
+          <p><kbd>SHIFT</kbd> / right click</p>
+        </div>
+        <div class="control-card touch-only">
+          <span class="control-icon">◐</span>
+          <h3>Swim</h3>
+          <p>Left thumb stick</p>
+        </div>
+        <div class="control-card touch-only">
+          <span class="control-icon">◎</span>
+          <h3>Aim &amp; fire</h3>
+          <p>Right thumb stick</p>
+        </div>
+        <div class="control-card touch-only">
+          <span class="control-icon">⟫</span>
+          <h3>Dash</h3>
+          <p>Tap the dash button</p>
+        </div>
+      </div>
+
+      <p class="hint">Chain takedowns for combo multipliers · Grab power-ups · Don't get eaten</p>
+    </div>
+  </section>
+
+  <section id="pauseScreen" class="screen hidden" aria-hidden="true">
+    <div class="panel">
+      <p class="eyebrow"><span></span> Surface break <span></span></p>
+      <h2 class="panel-title">PAUSED</h2>
+      <p class="panel-sub">The reef can wait. Probably.</p>
+      <div class="panel-actions">
+        <button id="resumeBtn" class="primary-btn small" type="button"><span>RESUME</span></button>
+        <button id="restartBtn" class="ghost-btn" type="button">RESTART RUN</button>
+        <button id="quitBtn" class="text-btn" type="button">BACK TO MENU</button>
+      </div>
+      <p class="hint">Press <kbd>ESC</kbd> to resume</p>
+    </div>
+  </section>
+
+  <section id="overScreen" class="screen hidden" aria-hidden="true">
+    <div class="panel over-panel">
+      <p class="eyebrow danger"><span></span> Run over <span></span></p>
+      <h2 class="panel-title chomped">CHOMPED.</h2>
+      <p id="newBest" class="new-best hidden">★ NEW PERSONAL BEST ★</p>
+      <p class="final-score-label">FINAL SCORE</p>
+      <p id="finalScore" class="final-score">0</p>
+      <div class="stats-grid">
+        <div><span>WAVE</span><strong id="statWave">1</strong></div>
+        <div><span>TAKEDOWNS</span><strong id="statKills">0</strong></div>
+        <div><span>BEST</span><strong id="statBest">0</strong></div>
+      </div>
+      <div class="panel-actions">
+        <button id="retryBtn" class="primary-btn small" type="button"><span>DIVE AGAIN</span><kbd>ENTER</kbd></button>
+        <button id="menuBtn" class="ghost-btn" type="button">BACK TO MENU</button>
+      </div>
+    </div>
+  </section>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

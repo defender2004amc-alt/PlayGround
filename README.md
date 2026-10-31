@@ -16,3 +16,14 @@
 - 👤 [Explore the creator's projects](https://omgithub.com/defender2004amc-alt).
 - 🌍 [Create with OMGithub](https://omgithub.com).
 <!-- omgithub:readme:end -->
+
+## 🐟 Reef Rampage
+
+A 2D underwater arena shooter. You are one fish with one harpoon, a bad attitude, and a reef full of teeth.
+
+- **Desktop:** WASD / arrows to swim, mouse to aim, hold click to fire, `Shift` or right-click to dash.
+- **Touch:** left thumb stick to swim, right thumb stick to aim and fire, dash button to dodge.
+- Chain takedowns for combo multipliers, grab power-ups, survive escalating waves, and take down the Anglerfish every fifth wave.
+- Reef islands block movement and shots, so use them for cover.
+
+Open `index.html`, or serve the folder with any static server (`python3 -m http.server`) and dive in.
